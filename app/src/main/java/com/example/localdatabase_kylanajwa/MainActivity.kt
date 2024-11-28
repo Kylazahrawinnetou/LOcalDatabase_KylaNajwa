@@ -1,64 +1,67 @@
-package com.example.databaselokal
+package com.example.localdatabase_kylanajwa
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.databaselokal.databinding.ActivityMainBinding
-import com.example.localdatabase_kylanajwa.AddHomeworkActivity
-import com.example.localdatabase_kylanajwa.Homework
-import com.example.localdatabase_kylanajwa.HomeworkAdapter
+import com.example.localdatabase_kylanajwa.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class MainActivity<ActivityMainBinding> : AppCompatActivity() {
+class HomeworkActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: HomeworkAdapter
+
     private val resultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.data != null) {
+    if (result.data != null) {
             when (result.resultCode) {
                 AddHomeworkActivity.RESULT_ADD -> {
-                    val homework = result.data?.getParcelableExtra<Homework>(AddHomeworkActivity.EXTRA_HOMEWORK) as Homework
+                    val homework =
+                        result.data?.getParcelableExtra<Homework>(AddHomeworkActivity.EXTRA_HOMEWORK) as Homework
                     adapter.addItem(homework)
                     binding.rvHomework.smoothScrollToPosition(adapter.itemCount - 1)
                     showSnackbarMessage("Data berhasil ditambahkan")
                 }
                 AddHomeworkActivity.RESULT_UPDATE -> {
-                    val homework = result.data?.getParcelableExtra<Homework>(AddHomeworkActivity.EXTRA_HOMEWORK) as Homework
-                    val position = result.data?.getIntExtra(AddHomeworkActivity.EXTRA_POSITION, 0) as Int
+                    val homework =
+                        result.data?.getParcelableExtra<Homework>(AddHomeworkActivity.EXTRA_HOMEWORK) as Homework
+                    val position =
+                        result.data?.getIntExtra(AddHomeworkActivity.EXTRA_POSITION, 0)
+                                as Int
                     adapter.updateItem(position, homework)
                     binding.rvHomework.smoothScrollToPosition(position)
                     showSnackbarMessage("Data berhasil diubah")
                 }
                 AddHomeworkActivity.RESULT_DELETE -> {
-                    val position = result.data?.getIntExtra(AddHomeworkActivity.EXTRA_POSITION, 0) as Int
+                    val position =
+                        result.data?.getIntExtra(AddHomeworkActivity.EXTRA_POSITION, 0)
+                                as Int
                     adapter.removeItem(position)
                     showSnackbarMessage("Data berhasil dihapus")
                 }
             }
         }
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.title = "Homework"
-
         binding.rvHomework.layoutManager = LinearLayoutManager(this)
         binding.rvHomework.setHasFixedSize(true)
 
         adapter = HomeworkAdapter(object : HomeworkAdapter.OnItemClickCallback {
             override fun onItemClicked(selectedHomework: Homework?, position: Int?) {
-                val intent = Intent(this@MainActivity, AddHomeworkActivity::class.java)
+                val intent =
+                    Intent(this@HomeworkActivity, AddHomeworkActivity::class.java)
                 intent.putExtra(AddHomeworkActivity.EXTRA_HOMEWORK, selectedHomework)
                 intent.putExtra(AddHomeworkActivity.EXTRA_POSITION, position)
                 resultLauncher.launch(intent)
@@ -82,16 +85,16 @@ class MainActivity<ActivityMainBinding> : AppCompatActivity() {
     }
 
     private fun loadHomeworkAsync() {
-        GlobalScope.launch(Dispatchers.Main) {
+        lifecycleScope.launch {
             val homeworkHelper = HomeworkHelper.getInstance(applicationContext)
             homeworkHelper.open()
             val deferredHomework = async(Dispatchers.IO) {
                 val cursor = homeworkHelper.queryAll()
                 MappingHelper.mapCursorToArrayList(cursor)
             }
-            val homeworkList = deferredHomework.await()
-            if (homeworkList.size > 0) {
-                adapter.listHomework = homeworkList
+            val homework= deferredHomework.await()
+            if (homework.size > 0) {
+                adapter.listHomework = homework
             } else {
                 adapter.listHomework = ArrayList()
                 showSnackbarMessage("Data tidak ada")
@@ -112,8 +115,4 @@ class MainActivity<ActivityMainBinding> : AppCompatActivity() {
     companion object {
         private const val EXTRA_STATE = "EXTRA_STATE"
     }
-}
-
-class HomeworkHelper {
-
 }

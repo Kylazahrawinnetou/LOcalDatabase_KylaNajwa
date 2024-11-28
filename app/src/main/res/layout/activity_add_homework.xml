@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddHomeworkActivity">
-    <Button
+
+    <ImageButton
         android:id="@+id/btn_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_delete_24"
-        android:contentDescription="1000" />
+        android:contentDescription="TODO" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
@@ -23,25 +24,27 @@
         android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_delete">
+        app:layout_constraintTop_toBottomOf="@+id/btn_delete">
 
         <EditText
             android:id="@+id/edt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-        android:autofillHints=""
-        android:hint="@string/title"
-        android:inputType="textCapSentences"
+            android:layout_margin="16dp"
+            android:autofillHints=""
+            android:hint="@string/title"
+            android:inputType="textCapSentences"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputLayout">
+            app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+            app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
             <EditText
                 android:id="@+id/edt_description"
@@ -52,13 +55,14 @@
                 android:maxLines="1"
                 android:autofillHints="" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <Button
-            android:id="@+id/ttn submit"
-        android:Layout_width="Odp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/submit"
-        app:Loyout_constraintEnd_toEnd0f="@+id/lextInputLayout2"
-        app:layout_constraintStart_toStart0f-"@+id/toxtInputLayout2"
-        app:layout_constraintTop_toBottom0f="Giaid/textinputlayout2" />
-    </androldx.constraintlayout.widget.ConstraintLayout>
+            android:id="@+id/btn_submit"
+            android:layout_width="Odp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/submit"
+            app:layout_constraintEnd_toEnd0f="@+id/textInputLayout2"
+            app:layout_constraintStart_toStart0f="@+id/textInputLayout2"
+            app:layout_constraintTop_toBottom0f="@+id/textInputlayout2"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>

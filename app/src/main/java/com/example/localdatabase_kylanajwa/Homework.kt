@@ -10,7 +10,3 @@ data class Homework(
     var description: String? = null,
     var date: String? = null
 ) : Parcelable
-
-
-
-

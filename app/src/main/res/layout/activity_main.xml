@@ -4,9 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HomeworkActivyty">
+        tools:context=".HomeworkActivity">
 
-        <!-- RecyclerView untuk menampilkan daftar tugas -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_homework"
             android:layout_width="match_parent"
@@ -18,7 +17,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_homework" />
 
-        <!-- FloatingActionButton untuk menambah tugas -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add"
             android:layout_width="wrap_content"
@@ -31,4 +29,3 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
