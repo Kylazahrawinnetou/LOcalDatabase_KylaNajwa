@@ -1,11 +1,10 @@
 package com.example.localdatabase_kylanajwa
 
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
-import android.database.SQLException
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.localdatabase_kylanajwa.databinding.ActivityAddHomeworkBinding
@@ -26,9 +25,11 @@ class AddHomeworkActivity : AppCompatActivity() {
         binding = ActivityAddHomeworkBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Inisialisasi helper database
         homeworkHelper = HomeworkHelper.getInstance(applicationContext)
         homeworkHelper.open()
 
+        // Ambil data dari Intent
         homework = intent.getParcelableExtra(EXTRA_HOMEWORK)
         if (homework != null) {
             position = intent.getIntExtra(EXTRA_POSITION, 0)
@@ -37,8 +38,9 @@ class AddHomeworkActivity : AppCompatActivity() {
             homework = Homework()
         }
 
+        // Set judul ActionBar dan tombol submit
         val actionBarTitle: String
-        var btnTitle: String
+        val btnTitle: String
 
         if (isEdit) {
             actionBarTitle = "Ubah"
@@ -48,7 +50,6 @@ class AddHomeworkActivity : AppCompatActivity() {
                 binding.edtTitle.setText(it.title)
                 binding.edtDescription.setText(it.description)
             }
-
         } else {
             actionBarTitle = "Tambah"
             btnTitle = "Simpan"
@@ -60,7 +61,15 @@ class AddHomeworkActivity : AppCompatActivity() {
         binding.btnSubmit.text = btnTitle
         binding.btnSubmit.setOnClickListener { addNewHomework() }
 
+        // Tombol untuk menghapus data
         binding.btnDelete.setOnClickListener { showAlertDialog(ALERT_DIALOG_DELETE) }
+
+        // Tangani tombol kembali dengan `OnBackPressedDispatcher`
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showAlertDialog(ALERT_DIALOG_CLOSE)
+            }
+        })
     }
 
     private fun addNewHomework() {
@@ -109,12 +118,7 @@ class AddHomeworkActivity : AppCompatActivity() {
     private fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
         val date = Date()
-
         return dateFormat.format(date)
-    }
-
-    override fun onBackPressed() {
-        showAlertDialog(ALERT_DIALOG_CLOSE)
     }
 
     private fun showAlertDialog(type: Int) {

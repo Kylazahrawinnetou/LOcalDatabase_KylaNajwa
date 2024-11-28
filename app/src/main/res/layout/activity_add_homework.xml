@@ -9,8 +9,8 @@
 
     <ImageButton
         android:id="@+id/btn_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,11 +30,10 @@
             android:id="@+id/edt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:autofillHints=""
             android:hint="@string/title"
             android:inputType="textCapSentences"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:autofillHints=""/>
     </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -58,11 +57,11 @@
 
         <Button
             android:id="@+id/btn_submit"
-            android:layout_width="Odp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/submit"
-            app:layout_constraintEnd_toEnd0f="@+id/textInputLayout2"
-            app:layout_constraintStart_toStart0f="@+id/textInputLayout2"
-            app:layout_constraintTop_toBottom0f="@+id/textInputlayout2"/>
+            android:text="@string/Submit"
+            app:layout_constraintEnd_toEndOf="@+id/textInputLayout2"
+            app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
